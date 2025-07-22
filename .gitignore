@@ -1,0 +1,94 @@
+*.png
+*.ipynb
+*.jpg
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+ 
+# C extensions
+*.so
+ 
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+ 
+# pipenv
+Pipfile.lock
+ 
+# poetry
+poetry.lock
+ 
+# pyenv
+.python-version
+ 
+# Django stuff
+*.log
+local_settings.py
+db.sqlite3
+ 
+# Flask stuff
+instance/
+.webassets-cache
+ 
+# PyInstaller
+dist/
+build/
+*.spec
+ 
+# Jupyter Notebooks
+.ipynb_checkpoints
+ 
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+ 
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+ 
+# Pyre
+.pyre/
+ 
+# pyright
+.pyright/
+ 
+# Pylint
+pylint-report.txt
+pylint-global.txt
+ 
+# pytest
+.pytest_cache/
+ 
+# VS Code
+.vscode/
+ 
+# macOS
+.DS_Store
+ 
+# System files
+Thumbs.db
+*.out
+*.pt 
+*.pth
+*.csv
+runs/
+dati/
+curriculum/
+csv/
+train*/
+codici/porcodio.py
+codici/*.pt
+*.txt
+*.dcm
