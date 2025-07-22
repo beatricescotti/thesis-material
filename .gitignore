@@ -92,3 +92,6 @@ codici/porcodio.py
 codici/*.pt
 *.txt
 *.dcm
+codici/curriculum_learning_yolo/
+grafici/
+risultati_curriculum/
