@@ -20,16 +20,16 @@ datasets = [
 
 configs = [
     # Step 1 - 25 jet, no background 
-    dict(pretrained = False, dropout=0.3, batch=32, freeze=0, weight_decay=0.01, hsv_h = 0.015, hsv_s = 0.7, hsv_v = 0.4, translate = 0.1, scale =0.5, fliplr =0.5),
+    dict(pretrained = False, freeze =3, dropout=0.3, batch=8, freeze=0, weight_decay=0.01, hsv_h = 0.015, hsv_s = 0.7, hsv_v = 0.4, translate = 0.1, scale =0.5, fliplr =0.5),
 
     # Step 2 - 25 jet, con background 
-    dict(pretrained = False, dropout=0.3, batch=16, freeze=5, mosaic=0.1, mixup=0.05, hsv_h=0.005, hsv_s=0.1, translate=0.05, scale=0.1),
+    dict(pretrained = False, dropout=0.3, batch=8, freeze=5, mosaic=0.1, mixup=0.05, hsv_h=0.005, hsv_s=0.1, translate=0.05, scale=0.1),
 
     # Step 3 - 12 jet, no background 
-    dict(pretrained = False, dropout=0.3, batch=32, freeze=5, mosaic=0.1, mixup=0.05, hsv_h=0.005, hsv_s=0.1, translate=0.05, scale=0.1),
+    dict(pretrained = False, dropout=0.3, batch=8, freeze=5, mosaic=0.1, mixup=0.05, hsv_h=0.005, hsv_s=0.1, translate=0.05, scale=0.1),
 
     # Step 4 - 12 jet, con background 
-    dict(pretrained = False, dropout=0.3, batch=16, freeze=0, mosaic=0.1, mixup=0.05, hsv_h=0.005, hsv_s=0.1, translate=0.05, scale=0.1),
+    dict(pretrained = False, dropout=0.3, batch=8, freeze=0, mosaic=0.1, mixup=0.05, hsv_h=0.005, hsv_s=0.1, translate=0.05, scale=0.1),
 
     # Step 5 - 6 jet, no background
     dict(pretrained = False, dropout=0.25, batch=20, freeze=5, mosaic=0.08, mixup=0.04, hsv_h=0.005, hsv_s=0.08, translate=0.04, scale=0.08),
@@ -60,19 +60,19 @@ for i, (yaml_path, cfg) in enumerate(zip(datasets, configs)):
 
     # Parametri dinamici in base alla difficoltà 
     if i in range (2,4):  # Steps 1–4 (25-12 jets)
-        lr = 1e-4
+        lr = 5e-5
         box_weight = 7.5
         weight_decay = 0.005
         patience = 15
     elif i < 8:  # Step 5–8 (6-3 jets)
-        lr = 5e-5
+        lr = 1e-5
         box_weight = 5.0
-        weight_decay = 5e-4
+        weight_decay = 0.001
         patience = 10
     else:  # Step 9–10 (1 jet)
-        lr = 2e-5
+        lr = 5e-6
         box_weight = 4.0
-        weight_decay = 1e-4
+        weight_decay = 0.001
         patience = 8
 
     # Configurazione comune
@@ -88,7 +88,7 @@ for i, (yaml_path, cfg) in enumerate(zip(datasets, configs)):
         box=box_weight,
         cls=1.0,
         dfl=1.5,
-        project='/gwpool/users/bscotti/tesi/dati/final_jet/curriculum_learning_jet_results_false',
+        project='/gwpool/users/bscotti/tesi/dati/final_jet/curriculum_learning_jet_results_false_new',
         name=f'step_{i+1}'
     )
 
@@ -96,7 +96,7 @@ for i, (yaml_path, cfg) in enumerate(zip(datasets, configs)):
     model.train(**training_config)
 
     # Reload dei pesi migliori per lo step successivo
-    model = YOLO(f'/gwpool/users/bscotti/tesi/dati/final_jet/curriculum_learning_jet_results_false/step_{i+1}/weights/best.pt').to(device)
+    model = YOLO(f'/gwpool/users/bscotti/tesi/dati/final_jet/curriculum_learning_jet_results_false_new/step_{i+1}/weights/best.pt').to(device)
 
 
 
