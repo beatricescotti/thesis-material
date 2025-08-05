@@ -8,7 +8,7 @@ import random
 import os
 import shutil
 
-csv_path_original = '/gwpool/users/bscotti/tesi/csv/annotations_final_resampled_0623.csv'
+csv_path_original = '/gwpool/users/bscotti/tesi/2d_annotations_pruned_threshold_4000.csv'
 annotations = pd.read_csv(csv_path_original)
 
 #annotations['image_name'] = annotations['path'].str.split('/').str[-1]  # Estrae il nome dell'immagine dal percorso
@@ -16,10 +16,10 @@ annotations = pd.read_csv(csv_path_original)
 
 # elimino la colonna path 
 #annotations = annotations.drop(columns=['path'], errors='ignore')  
-annotations['path'] = '/gwpool/users/bscotti/tesi/dati/dati_medici/NLST/padded_slices_new/' + annotations['img_name']
+#annotations['path'] = '/gwpool/users/bscotti/tesi/dati/dati_medici/NLST/padded_slices_new/' + annotations['img_name']
 
-"""
-width, height = 640, 640
+
+width, height = 736, 736
 yolo_annotations_df = pd.DataFrame({
     'path': annotations['path'],
     'image_name': annotations['image_name'],
@@ -46,6 +46,7 @@ yolo_annotations_df = pd.DataFrame({
     'width': annotations['width']/ width,
     'height': annotations['height']/ height
 })
+"""
 # CREAZIONE DATASET TRAIN/VAL E TEST
 
 # Divisione tra Train/Val e Test
@@ -112,7 +113,7 @@ i dati devono essere organizzati nel seguente modo per essere allenati con YOLO:
 """
 
 # IMAGES
-image_dir = "/gwpool/users/bscotti/tesi/dati/dati_medici/dataset_NLST_padded/images" # sostituire con il path di destinazione immagini
+image_dir = "/gwpool/users/bscotti/tesi/prova/images" # sostituire con il path di destinazione immagini
 
 def move_images(df, split_name):
     # creo la cartella di destinazione se non esiste
@@ -155,25 +156,25 @@ def save_annotations(df, output_dir): # crea la cartella
     print(f"Annotazioni salvate in {output_dir}")
 
 
-save_annotations(train_df, '/gwpool/users/bscotti/tesi/dati/dati_medici/dataset_NLST_padded/labels/train')
-save_annotations(validation_df, '/gwpool/users/bscotti/tesi/dati/dati_medici/dataset_NLST_padded/labels/validation')
-save_annotations(test_df, '/gwpool/users/bscotti/tesi/dati/dati_medici/dataset_NLST_padded/labels/test')
+save_annotations(train_df, '/gwpool/users/bscotti/tesi/prova/labels/train')
+save_annotations(validation_df, '/gwpool/users/bscotti/tesi/prova/labels/validation')
+save_annotations(test_df, '/gwpool/users/bscotti/tesi/prova/labels/test')
 
 
 
 # CREAZIONE FILE CONFIGURAZIONE YOLO
-yaml_path = "/gwpool/users/bscotti/tesi/dati/dati_medici/dataset_NLST_padded/dataset.yaml"
+yaml_path = "/gwpool/users/bscotti/tesi/prova/dataset.yaml"
 
 # contenuto del file di configurazione
 yaml_content = """\
-path : /gwpool/users/bscotti/tesi/dati/dati_medici/dataset_NLST_padded
+path : /gwpool/users/bscotti/tesi/prova/labels
 
 train: images/train
 val: images/validation
 test: images/test 
 
-nc: 1  
-names: ["tumore"]
+nc: 2  
+names: ["maligno", "benigno"]
 """
 
 with open(yaml_path, "w") as file:
